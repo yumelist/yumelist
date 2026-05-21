@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Yumelist — Sua lista de anime e mangá dos sonhos</title>
+<meta name="description" content="App brasileiro para acompanhar anime e mangá. Sem ads, com filtro inteligente de idade e foco no Brasil. Em breve na Google Play.">
+<meta property="og:title" content="Yumelist — Sua lista de anime e mangá dos sonhos">
+<meta property="og:description" content="App brasileiro para acompanhar anime e mangá. Sem ads, sem fricção. Em breve na Google Play.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yumelist.app">
+<meta property="og:image" content="https://yumelist.app/og-image.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23C8A2E0'/%3E%3C/svg%3E">
+<style>
+:root {
+  --surface: #0F0A1E;
+  --surface-raised: #1A132E;
+  --surface-muted: #251A4A;
+  --text: #F2EBFF;
+  --text-muted: #B8A8DB;
+  --text-subtle: #6F5F9A;
+  --primary: #C8A2E0;
+  --accent: #FFAACC;
+  --watching: #6FB8D8;
+  --completed: #A8D896;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+  background: var(--surface);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: var(--primary); text-decoration: none; }
+a:hover { color: var(--accent); }
+
+/* Background gradient subtle */
+body::before {
+  content: '';
+  position: fixed;
+  top: 0; left: 0; right: 0; height: 100vh;
+  background: radial-gradient(circle at top right, rgba(200, 162, 224, 0.12), transparent 50%),
+              radial-gradient(circle at bottom left, rgba(255, 170, 204, 0.08), transparent 50%);
+  pointer-events: none;
+  z-index: -1;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* Header */
+header {
+  padding: 24px 0;
+  position: sticky; top: 0;
+  background: rgba(15, 10, 30, 0.85);
+  backdrop-filter: blur(12px);
+  z-index: 100;
+  border-bottom: 1px solid rgba(200, 162, 224, 0.1);
+}
+header .inner { display: flex; justify-content: space-between; align-items: center; }
+.logo {
+  font-size: 24px; font-weight: 800;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+nav a { margin-left: 32px; color: var(--text-muted); font-size: 15px; font-weight: 500; }
+nav a:hover { color: var(--text); }
+
+/* Hero */
+.hero { padding: 120px 0 80px; text-align: center; }
+.hero h1 {
+  font-size: clamp(36px, 6vw, 64px); font-weight: 800;
+  line-height: 1.1; margin-bottom: 24px;
+  background: linear-gradient(135deg, var(--text) 0%, var(--primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .tagline {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--text-muted);
+  max-width: 580px; margin: 0 auto 40px;
+}
+.hero .cta { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+.btn {
+  padding: 16px 32px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  border: none;
+}
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 20px rgba(200, 162, 224, 0.4);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(200, 162, 224, 0.5); }
+.btn-secondary {
+  background: var(--surface-raised);
+  color: var(--text);
+  border: 1px solid rgba(200, 162, 224, 0.3);
+}
+.btn-secondary:hover { background: var(--surface-muted); }
+.badge-soon {
+  display: inline-block;
+  padding: 6px 14px;
+  background: rgba(255, 170, 204, 0.18);
+  color: var(--accent);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  border: 1px solid rgba(255, 170, 204, 0.4);
+}
+
+/* Features grid */
+.features { padding: 80px 0; }
+.section-title {
+  text-align: center;
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.section-subtitle {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 17px;
+  margin-bottom: 64px;
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.feature {
+  padding: 32px 24px;
+  background: var(--surface-raised);
+  border-radius: 20px;
+  border: 1px solid rgba(200, 162, 224, 0.1);
+  transition: transform 0.2s, border-color 0.2s;
+}
+.feature:hover {
+  transform: translateY(-4px);
+  border-color: rgba(200, 162, 224, 0.4);
+}
+.feature .icon { font-size: 32px; margin-bottom: 16px; }
+.feature h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.feature p { color: var(--text-muted); font-size: 14px; }
+
+/* Why Yumelist */
+.why { padding: 80px 0; background: linear-gradient(180deg, transparent, rgba(26, 19, 46, 0.5)); }
+.why-list {
+  max-width: 720px; margin: 0 auto;
+  display: grid; gap: 24px;
+}
+.why-item { display: flex; gap: 20px; align-items: flex-start; }
+.why-item .check {
+  flex: 0 0 32px;
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--completed);
+  color: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 18px;
+}
+.why-item h4 { font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.why-item p { color: var(--text-muted); font-size: 14px; }
+
+/* Waitlist */
+.waitlist {
+  padding: 80px 0;
+  text-align: center;
+}
+.waitlist .box {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 48px 32px;
+  background: var(--surface-raised);
+  border-radius: 24px;
+  border: 1px solid rgba(255, 170, 204, 0.2);
+}
+.waitlist h2 { font-size: 28px; margin-bottom: 12px; }
+.waitlist p { color: var(--text-muted); margin-bottom: 24px; }
+.waitlist form { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.waitlist input {
+  flex: 1 1 200px;
+  padding: 14px 20px;
+  background: var(--surface);
+  border: 1px solid rgba(200, 162, 224, 0.3);
+  border-radius: 999px;
+  color: var(--text);
+  font-size: 15px;
+  outline: none;
+}
+.waitlist input:focus { border-color: var(--primary); }
+.waitlist button { padding: 14px 28px; }
+
+/* Footer */
+footer {
+  padding: 48px 0 32px;
+  border-top: 1px solid rgba(200, 162, 224, 0.1);
+  text-align: center;
+  color: var(--text-subtle);
+  font-size: 13px;
+}
+footer a { color: var(--text-muted); margin: 0 12px; }
+footer .built { margin-top: 16px; font-size: 12px; }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hero { padding: 80px 0 60px; }
+  nav { display: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container inner">
+    <div class="logo">Yumelist</div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#waitlist">Waitlist</a>
+      <a href="/privacy">Privacidade</a>
+      <a href="/terms">Termos</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <span class="badge-soon">🌸 Em breve na Google Play</span>
+    <h1>Sua lista de anime<br>e mangá dos sonhos.</h1>
+    <p class="tagline">
+      O tracker brasileiro, bonito e sem ads. Marca episódio em um toque,
+      vê onde assistir no Brasil, sincroniza sua biblioteca em todos os
+      dispositivos.
+    </p>
+    <div class="cta">
+      <a href="#waitlist" class="btn btn-primary">Avise-me quando lançar →</a>
+      <a href="#features" class="btn btn-secondary">Ver features</a>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="features">
+  <div class="container">
+    <h2 class="section-title">Pensado pra quem ama anime de verdade</h2>
+    <p class="section-subtitle">Tudo que MyAnimeList esqueceu de fazer bem.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="icon">🎬</div>
+        <h3>1-tap mark</h3>
+        <p>Marca um episódio com um toque. Sem confirmação. Sem fricção. Direto na home.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🇧🇷</div>
+        <h3>Foco no Brasil</h3>
+        <p>Badge destacando plataformas disponíveis no Brasil. Crunchyroll BR, Netflix, Prime Video — tudo claro.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📅</div>
+        <h3>Calendário semanal</h3>
+        <p>Veja o que estreia hoje, amanhã, esta semana. Em horário do Brasil.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📊</div>
+        <h3>Estatísticas honestas</h3>
+        <p>Quantas horas você passou. Quantos mangás completou. Card compartilhável bonito pra postar.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🌗</div>
+        <h3>Sem anúncios</h3>
+        <p>Nenhum anúncio. Nenhum tracker. Sua atenção é sua. Premium opcional pra quem quiser apoiar.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🌸</div>
+        <h3>Yume Sereno</h3>
+        <p>Tema lavanda e sakura. Um app que você quer abrir todo dia só pra ver.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">📚</div>
+        <h3>Anime + Mangá</h3>
+        <p>Um só app pra tudo. Anime, mangá, manhwa, light novel. Catálogo da AniList.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔄</div>
+        <h3>Importa do MAL/AniList</h3>
+        <p>Migra sua lista existente em 30 segundos. Cola seu username, a gente faz o resto.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">🔒</div>
+        <h3>Modo offline</h3>
+        <p>Tudo salvo no seu celular. Funciona sem internet. Sincroniza quando voltar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="why">
+  <div class="container">
+    <h2 class="section-title">Por que Yumelist?</h2>
+    <p class="section-subtitle">O que aprendemos lendo 5000+ reviews do MAL.</p>
+    <div class="why-list">
+      <div class="why-item">
+        <div class="check">✓</div>
+        <div>
+          <h4>Sem anúncios invasivos</h4>
+          <p>MAL tem 4+ ads por tela. A gente tem zero. Sustentamos com Premium opcional + afiliados discretos nos links de streaming.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="check">✓</div>
+        <div>
+          <h4>Filtro de idade inteligente</h4>
+          <p>Conteúdo +18 não aparece pra menores. Adultos podem optar por ver ou esconder, com toggle único e claro.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="check">✓</div>
+        <div>
+          <h4>Em português, de verdade</h4>
+          <p>Interface em PT-BR. Termos em PT-BR. Datas em formato BR. Foco em quem fala português.</p>
+        </div>
+      </div>
+      <div class="why-item">
+        <div class="check">✓</div>
+        <div>
+          <h4>Privacidade primeiro</h4>
+          <p>Não vendemos seus dados. Não rastreamos você fora do app. LGPD-compliant. Dados criptografados.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="waitlist" id="waitlist">
+  <div class="container">
+    <div class="box">
+      <h2>Quer ser avisado quando lançar?</h2>
+      <p>Lançamento previsto pra junho/2026. Deixa seu email — sem spam, só um aviso quando estiver no ar.</p>
+      <form onsubmit="event.preventDefault(); alert('Obrigado! Cadastro de email vai estar conectado em breve. Por enquanto, segue @yumelist no Instagram pra ficar por dentro.');">
+        <input type="email" placeholder="seu@email.com" required>
+        <button type="submit" class="btn btn-primary">Avisar</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div>
+      <a href="/privacy">Política de Privacidade</a> ·
+      <a href="/terms">Termos de Uso</a> ·
+      <a href="mailto:luca.prado27@gmail.com">Contato</a>
+    </div>
+    <div class="built">
+      © 2026 Yumelist. Feito com 🌸 no Brasil.<br>
+      Catálogo de anime/mangá fornecido por <a href="https://anilist.co">AniList</a>.
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
